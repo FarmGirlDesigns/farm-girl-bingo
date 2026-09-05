@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Farm Girl Designs Bingo</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#ff69b4,#40e0d0);
+  min-height:100vh;
+  text-align:center;
+  color:#222;
+}
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:15px;
+}
+h1{
+  margin:5px 0;
+  font-size:28px;
+  color:white;
+  text-shadow:2px 2px #333;
+}
+.subtitle{
+  color:white;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+.cardNumber{
+  background:white;
+  border-radius:12px;
+  padding:8px;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+.bingo{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:5px;
+  background:#222;
+  padding:5px;
+  border-radius:12px;
+}
+.cell{
+  aspect-ratio:1;
+  border:0;
+  border-radius:8px;
+  background:white;
+  font-size:20px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.cell.marked{
+  background:#ff69b4;
+  color:white;
+  box-shadow:inset 0 0 0 4px #40e0d0;
+}
+.free{
+  background:#40e0d0;
+  color:white;
+}
+.buttons{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+button.control{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  font-weight:bold;
+  font-size:15px;
+}
+.reset{background:white;}
+.bingoBtn{background:#222;color:white;}
+#message{
+  margin-top:12px;
+  background:white;
+  padding:12px;
+  border-radius:10px;
+  font-weight:bold;
+}
+.instructions{
+  background:white;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎀 FARM GIRL DESIGNS 🎀</h1>
+<div class="subtitle">🩷🩵 DIGITAL BINGO 🩵🩷</div>
+
+<div class="cardNumber">
+  PLAYER CARD #<span id="cardNum"></span>
+</div>
+
+<div class="bingo" id="bingo"></div>
+
+<div class="buttons">
+  <button class="control reset" onclick="resetCard()">↩ RESET</button>
+  <button class="control bingoBtn" onclick="checkBingo()">🎉 BINGO!</button>
+</div>
+
+<div id="message">
+  Tap a number when it is called!
+</div>
+
+<div class="instructions">
+  ⭐ The center FREE space is already marked.<br>
+  ⭐ Tap each called number to mark it.<br>
+  ⭐ Get 5 in a row, column, or diagonal.<br>
+  ⭐ When you have Bingo, tap the BINGO button!
+</div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+let cardNumber = parseInt(params.get("card")) || 1;
+
+if(cardNumber < 1) cardNumber = 1;
+if(cardNumber > 150) cardNumber = 150;
+
+document.getElementById("cardNum").textContent = cardNumber;
+
+function seededRandom(seed){
+  let x = Math.sin(seed++) * 10000;
+  return x - Math.floor(x);
+}
+
+function makeColumn(min,max,seed){
+  let numbers=[];
+  let seedValue=seed;
+
+  while(numbers.length<5){
+    seedValue++;
+    let n=Math.floor(seededRandom(seedValue)*(max-min+1))+min;
+    if(!numbers.includes(n)) numbers.push(n);
+  }
+
+  return numbers;
+}
+
+let B = makeColumn(1,15,cardNumber*11);
+let I = makeColumn(16,30,cardNumber*17);
+let N = makeColumn(31,45,cardNumber*23);
+let G = makeColumn(46,60,cardNumber*29);
+let O = makeColumn(61,75,cardNumber*31);
+
+let board=[];
+
+for(let r=0;r<5;r++){
+  board.push([
+    B[r],
+    I[r],
+    N[r],
+    G[r],
+    O[r]
+  ]);
+}
+
+board[2][2]="FREE";
+
+const bingo=document.getElementById("bingo");
+
+function drawCard(){
+
+  bingo.innerHTML="";
+
+  board.forEach((row,r)=>{
+    row.forEach((num,c)=>{
+
+      const button=document.createElement("button");
+      button.className="cell";
+
+      if(num==="FREE"){
+        button.classList.add("free","marked");
+      }
+
+      button.textContent=num;
+
+      button.onclick=()=>{
+
+        if(num!=="FREE"){
+          button.classList.toggle("marked");
+        }
+
+      };
+
+      bingo.appendChild(button);
+
+    });
+  });
+
+}
+
+function resetCard(){
+
+  document.querySelectorAll(".cell").forEach((cell,index)=>{
+
+    if(index===12){
+      cell.classList.add("marked");
+    }else{
+      cell.classList.remove("marked");
+    }
+
+  });
+
+  document.getElementById("message").textContent=
+  "Card reset! Tap the numbers as they are called.";
+
+}
+
+function checkBingo(){
+
+  const cells=[...document.querySelectorAll(".cell")];
+
+  let marked=cells.map(c=>c.classList.contains("marked"));
+
+  let win=false;
+
+  for(let r=0;r<5;r++){
+
+    let row=true;
+
+    for(let c=0;c<5;c++){
+      if(!marked[r*5+c]) row=false;
+    }
+
+    if(row) win=true;
+  }
+
+  for(let c=0;c<5;c++){
+
+    let col=true;
+
+    for(let r=0;r<5;r++){
+      if(!marked[r*5+c]) col=false;
+    }
+
+    if(col) win=true;
+  }
+
+  let d1=true;
+  let d2=true;
+
+  for(let i=0;i<5;i++){
+
+    if(!marked[i*5+i]) d1=false;
+
+    if(!marked[i*5+(4-i)]) d2=false;
+
+  }
+
+  if(d1 || d2) win=true;
+
+  const message=document.getElementById("message");
+
+  if(win){
+
+    message.innerHTML=
+    "🎉🎉🎉 <strong>BINGO!</strong> 🎉🎉🎉<br>Call it out on the LIVE!";
+
+  }else{
+
+    message.textContent=
+    "Not Bingo yet — keep playing! 🩷";
+
+  }
+
+}
+
+drawCard();
+
+</script>
+
+</body>
+</html>
