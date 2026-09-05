@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Farm Girl Designs Bingo</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ff69b4,#40e0d0);
+  text-align:center;
+  color:white;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:25px 18px;
+}
+
+.logo{
+  font-size:34px;
+  font-weight:bold;
+  text-shadow:2px 2px #333;
+  margin-top:20px;
+}
+
+.subtitle{
+  font-size:23px;
+  font-weight:bold;
+  margin:15px 0 25px;
+}
+
+.card{
+  background:#222;
+  border-radius:25px;
+  padding:25px 20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.3);
+}
+
+h2{
+  margin-top:0;
+  font-size:27px;
+}
+
+.instructions{
+  background:white;
+  color:#222;
+  border-radius:15px;
+  padding:15px;
+  margin:20px 0;
+  font-size:17px;
+  line-height:1.5;
+}
+
+input{
+  width:85%;
+  max-width:300px;
+  padding:16px;
+  border:0;
+  border-radius:12px;
+  font-size:22px;
+  text-align:center;
+  margin:10px;
+}
+
+button{
+  width:90%;
+  max-width:340px;
+  padding:17px;
+  border:0;
+  border-radius:14px;
+  background:#ff69b4;
+  color:white;
+  font-size:21px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+.small{
+  margin-top:20px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+🎀 FARM GIRL DESIGNS 🎀
+</div>
+
+<div class="subtitle">
+🩷🩵 DIGITAL BINGO 🩵🩷
+</div>
+
+<div class="card">
+
+<h2>🎉 GET YOUR BINGO CARD 🎉</h2>
+
+<div class="instructions">
+<strong>Enter the Bingo card number you were given.</strong>
+<br><br>
+Your card number must be between
+<strong>1 and 150.</strong>
+<br><br>
+Then tap <strong>OPEN MY CARD</strong>.
+</div>
+
+<input
+  id="cardNumber"
+  type="number"
+  min="1"
+  max="150"
+  placeholder="Card #"
+>
+
+<br>
+
+<button onclick="openCard()">
+🎀 OPEN MY CARD 🎀
+</button>
+
+<div class="small">
+No printing required! 📱<br>
+Tap the numbers on your phone as they are called LIVE.
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openCard(){
+
+  const input=document.getElementById("cardNumber");
+  const number=parseInt(input.value);
+
+  if(!number || number<1 || number>150){
+
+    alert("Please enter a card number from 1 to 150.");
+
+    return;
+  }
+
+  window.location.href=
+    "index.html?card="+number;
+}
+
+document.getElementById("cardNumber")
+.addEventListener("keydown",function(event){
+
+  if(event.key==="Enter"){
+    openCard();
+  }
+
+});
+
+</script>
+
+</body>
+</html>
