@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Farm Girl Designs Bingo Caller</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#ff69b4,#40e0d0);
+  min-height:100vh;
+  text-align:center;
+  color:white;
+}
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:15px;
+}
+h1{
+  font-size:30px;
+  margin:10px 0;
+  text-shadow:2px 2px #333;
+}
+.subtitle{
+  font-weight:bold;
+  font-size:18px;
+}
+.current{
+  background:#222;
+  border-radius:20px;
+  padding:20px;
+  margin:20px 0;
+}
+.label{
+  font-size:18px;
+}
+.number{
+  font-size:90px;
+  font-weight:bold;
+  margin:5px;
+}
+.letter{
+  font-size:35px;
+  font-weight:bold;
+}
+button{
+  border:0;
+  border-radius:15px;
+  padding:18px 25px;
+  font-size:20px;
+  font-weight:bold;
+  margin:6px;
+  cursor:pointer;
+}
+.call{
+  background:white;
+}
+.reset{
+  background:#222;
+  color:white;
+}
+.called{
+  background:white;
+  color:#222;
+  border-radius:15px;
+  padding:15px;
+  margin-top:15px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+  margin-top:10px;
+}
+.ball{
+  padding:12px 3px;
+  border-radius:8px;
+  background:#ddd;
+  font-weight:bold;
+}
+.ball.calledBall{
+  background:#ff69b4;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎀 FARM GIRL DESIGNS 🎀</h1>
+<div class="subtitle">🩷🩵 BINGO CALLER 🩵🩷</div>
+
+<div class="current">
+
+<div class="label">CURRENT NUMBER</div>
+
+<div class="letter" id="letter">READY</div>
+
+<div class="number" id="number">—</div>
+
+<button class="call" onclick="callNumber()">
+🎉 CALL NEXT NUMBER
+</button>
+
+<button class="reset" onclick="resetGame()">
+↩ RESET GAME
+</button>
+
+</div>
+
+<div class="called">
+
+<strong>NUMBERS CALLED</strong>
+
+<div id="calledList">
+None yet
+</div>
+
+</div>
+
+<div class="called">
+
+<strong>FULL CALLING BOARD</strong>
+
+<div class="grid" id="board"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let calledNumbers=[];
+
+function letterFor(n){
+  if(n<=15) return "B";
+  if(n<=30) return "I";
+  if(n<=45) return "N";
+  if(n<=60) return "G";
+  return "O";
+}
+
+function callNumber(){
+
+  if(calledNumbers.length>=75){
+    alert("All 75 numbers have been called!");
+    return;
+  }
+
+  let n;
+
+  do{
+    n=Math.floor(Math.random()*75)+1;
+  }while(calledNumbers.includes(n));
+
+  calledNumbers.push(n);
+
+  document.getElementById("letter").textContent=
+    letterFor(n);
+
+  document.getElementById("number").textContent=
+    n;
+
+  updateBoard();
+  updateList();
+}
+
+function updateBoard(){
+
+  const board=document.getElementById("board");
+  board.innerHTML="";
+
+  for(let n=1;n<=75;n++){
+
+    const div=document.createElement("div");
+
+    div.className="ball";
+
+    if(calledNumbers.includes(n)){
+      div.classList.add("calledBall");
+    }
+
+    div.textContent=letterFor(n)+"-"+n;
+
+    board.appendChild(div);
+  }
+}
+
+function updateList(){
+
+  const list=document.getElementById("calledList");
+
+  if(calledNumbers.length===0){
+    list.textContent="None yet";
+    return;
+  }
+
+  list.textContent=calledNumbers
+    .map(n=>letterFor(n)+"-"+n)
+    .join(" • ");
+}
+
+function resetGame(){
+
+  if(confirm("Reset the entire Bingo game?")){
+
+    calledNumbers=[];
+
+    document.getElementById("letter").textContent="READY";
+    document.getElementById("number").textContent="—";
+
+    updateBoard();
+    updateList();
+  }
+}
+
+updateBoard();
+
+</script>
+
+</body>
+</html>
