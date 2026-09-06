@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Farm Girl Designs Bingo Verifier</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#ff69b4,#40e0d0);
+min-height:100vh;
+text-align:center;
+color:white;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+padding:15px;
+}
+
+h1{
+font-size:30px;
+margin:10px 0;
+text-shadow:2px 2px #333;
+}
+
+.subtitle{
+font-weight:bold;
+font-size:18px;
+margin-bottom:15px;
+}
+
+.panel{
+background:#222;
+border-radius:20px;
+padding:18px;
+margin:15px 0;
+}
+
+.currentLabel{
+font-size:17px;
+}
+
+.currentLetter{
+font-size:35px;
+font-weight:bold;
+}
+
+.currentNumber{
+font-size:75px;
+font-weight:bold;
+}
+
+button{
+border:0;
+border-radius:15px;
+padding:14px 18px;
+font-size:17px;
+font-weight:bold;
+margin:5px;
+cursor:pointer;
+}
+
+.callButton{
+background:white;
+color:#222;
+}
+
+.resetButton{
+background:#111;
+color:white;
+}
+
+.whitePanel{
+background:white;
+color:#222;
+border-radius:15px;
+padding:15px;
+margin-top:15px;
+}
+
+.callGrid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:5px;
+margin-top:10px;
+}
+
+.ball{
+padding:10px 2px;
+border-radius:8px;
+background:#ddd;
+font-weight:bold;
+font-size:13px;
+}
+
+.ball.called{
+background:#ff69b4;
+color:white;
+}
+
+.calledList{
+font-size:14px;
+line-height:1.8;
+}
+
+input{
+width:80%;
+max-width:280px;
+padding:14px;
+border:0;
+border-radius:12px;
+font-size:22px;
+text-align:center;
+margin:8px;
+}
+
+.checkButton{
+background:#40e0d0;
+color:#222;
+width:85%;
+}
+
+.cardTitle{
+font-size:20px;
+font-weight:bold;
+margin:15px 0;
+}
+
+.bingoCard{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:5px;
+background:#111;
+padding:5px;
+border-radius:12px;
+margin-top:10px;
+}
+
+.cell{
+aspect-ratio:1;
+display:flex;
+align-items:center;
+justify-content:center;
+background:white;
+color:#222;
+font-size:18px;
+font-weight:bold;
+border-radius:7px;
+}
+
+.cell.calledCell{
+background:#ff69b4;
+color:white;
+box-shadow:inset 0 0 0 3px #40e0d0;
+}
+
+.cell.freeCell{
+background:#40e0d0;
+color:white;
+}
+
+.result{
+margin-top:15px;
+border-radius:15px;
+padding:18px;
+font-size:18px;
+font-weight:bold;
+}
+
+.valid{
+background:#b8ffcc;
+color:#075b22;
+}
+
+.invalid{
+background:#ffd1d1;
+color:#8b0000;
+}
+
+.history{
+background:white;
+color:#222;
+border-radius:15px;
+padding:15px;
+margin-top:15px;
+text-align:left;
+}
+
+.history h3{
+text-align:center;
+margin-top:0;
+}
+
+.winner{
+padding:9px;
+border-bottom:1px solid #ddd;
+}
+
+.small{
+font-size:13px;
+margin-top:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎀 FARM GIRL DESIGNS 🎀</h1>
+
+<div class="subtitle">
+🩷🩵 BINGO CALLER + BINGO VERIFIER 🩵🩷
+</div>
+
+
+<!-- CALLER -->
+
+<div class="panel">
+
+<div class="currentLabel">
+CURRENT NUMBER
+</div>
+
+<div class="currentLetter" id="currentLetter">
+READY
+</div>
+
+<div class="currentNumber" id="currentNumber">
+—
+</div>
+
+<button class="callButton" onclick="callNextNumber()">
+🎉 CALL NEXT NUMBER
+</button>
+
+<button class="resetButton" onclick="resetGame()">
+↩ RESET GAME
+</button>
+
+</div>
+
+
+<!-- CALLED NUMBERS -->
+
+<div class="whitePanel">
+
+<strong>📢 NUMBERS CALLED</strong>
+
+<div class="calledList" id="calledList">
+None yet
+</div>
+
+</div>
+
+
+<!-- FULL BOARD -->
+
+<div class="whitePanel">
+
+<strong>🎱 FULL CALLING BOARD</strong>
+
+<div class="callGrid" id="callGrid">
+</div>
+
+</div>
+
+
+<!-- VERIFY -->
+
+<div class="panel">
+
+<h2>🏆 CHECK A BINGO</h2>
+
+<div>
+Enter the player's card number:
+</div>
+
+<input
+id="cardInput"
+type="number"
+min="1"
+max="150"
+placeholder="Card #"
+>
+
+<br>
+
+<button class="checkButton" onclick="checkCard()">
+🔎 CHECK BINGO
+</button>
+
+<div id="cardTitle" class="cardTitle"></div>
+
+<div id="bingoCard" class="bingoCard"></div>
+
+<div id="result"></div>
+
+</div>
+
+
+<!-- WINNERS -->
+
+<div class="history">
+
+<h3>🏆 WINNER HISTORY</h3>
+
+<div id="winnerHistory">
+No winners yet
+</div>
+
+</div>
+
+
+<div class="small">
+Farm Girl Designs • 150 Digital Bingo Cards
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   GAME DATA
+========================= */
+
+let calledNumbers=[];
+
+let winners=[];
+
+
+/* =========================
+   BINGO LETTER
+========================= */
+
+function letterFor(n){
+
+if(n<=15) return "B";
+
+if(n<=30) return "I";
+
+if(n<=45) return "N";
+
+if(n<=60) return "G";
+
+return "O";
+
+}
+
+
+/* =========================
+   SAME CARD GENERATOR
+   AS FARM GIRL DESIGNS
+========================= */
+
+function seededRandom(seed){
+
+let x=Math.sin(seed++)*10000;
+
+return x-Math.floor(x);
+
+}
+
+
+function makeColumn(min,max,seed){
+
+let numbers=[];
+
+let seedValue=seed;
+
+while(numbers.length<5){
+
+seedValue++;
+
+let n=Math.floor(
+seededRandom(seedValue)*(max-min+1)
+)+min;
+
+if(!numbers.includes(n)){
+numbers.push(n);
+}
+
+}
+
+return numbers;
+
+}
+
+
+function makeCard(cardNumber){
+
+let B=makeColumn(1,15,cardNumber*11);
+
+let I=makeColumn(16,30,cardNumber*17);
+
+let N=makeColumn(31,45,cardNumber*23);
+
+let G=makeColumn(46,60,cardNumber*29);
+
+let O=makeColumn(61,75,cardNumber*31);
+
+let board=[];
+
+for(let r=0;r<5;r++){
+
+board.push([
+B[r],
+I[r],
+N[r],
+G[r],
+O[r]
+]);
+
+}
+
+board[2][2]="FREE";
+
+return board;
+
+}
+
+
+/* =========================
+   CALL NUMBER
+========================= */
+
+function callNextNumber(){
+
+if(calledNumbers.length>=75){
+
+alert("All 75 numbers have been called!");
+
+return;
+
+}
+
+let n;
+
+do{
+
+n=Math.floor(Math.random()*75)+1;
+
+}while(calledNumbers.includes(n));
+
+
+calledNumbers.push(n);
+
+document.getElementById("currentLetter").textContent=
+letterFor(n);
+
+document.getElementById("currentNumber").textContent=
+n;
+
+updateCalledList();
+
+updateCallGrid();
+
+}
+
+
+/* =========================
+   CALLED LIST
+========================= */
+
+function updateCalledList(){
+
+const list=document.getElementById("calledList");
+
+if(calledNumbers.length===0){
+
+list.textContent="None yet";
+
+return;
+
+}
+
+list.textContent=
+calledNumbers
+.map(n=>letterFor(n)+"-"+n)
+.join(" • ");
+
+}
+
+
+/* =========================
+   CALLING BOARD
+========================= */
+
+function updateCallGrid(){
+
+const grid=document.getElementById("callGrid");
+
+grid.innerHTML="";
+
+for(let n=1;n<=75;n++){
+
+const ball=document.createElement("div");
+
+ball.className="ball";
+
+if(calledNumbers.includes(n)){
+
+ball.classList.add("called");
+
+}
+
+ball.textContent=
+letterFor(n)+"-"+n;
+
+grid.appendChild(ball);
+
+}
+
+}
+
+
+/* =========================
+   CHECK PLAYER CARD
+========================= */
+
+function checkCard(){
+
+const cardNumber=
+parseInt(document.getElementById("cardInput").value);
+
+
+if(!cardNumber ||
+cardNumber<1 ||
+cardNumber>150){
+
+alert("Please enter a card number from 1 to 150.");
+
+return;
+
+}
+
+
+const card=makeCard(cardNumber);
+
+const cardDiv=
+document.getElementById("bingoCard");
+
+cardDiv.innerHTML="";
+
+
+document.getElementById("cardTitle").textContent=
+"PLAYER CARD #"+cardNumber;
+
+
+let marked=[];
+
+
+/* DRAW CARD */
+
+for(let r=0;r<5;r++){
+
+for(let c=0;c<5;c++){
+
+const num=card[r][c];
+
+const cell=document.createElement("div");
+
+cell.className="cell";
+
+
+if(num==="FREE"){
+
+cell.classList.add("freeCell");
+
+marked.push(true);
+
+}else{
+
+const called=
+calledNumbers.includes(num);
+
+if(called){
+
+cell.classList.add("calledCell");
+
+}
+
+marked.push(called);
+
+}
+
+
+cell.textContent=num;
+
+cardDiv.appendChild(cell);
+
+}
+
+}
+
+
+/* FIND WINNING LINES */
+
+let wins=[];
+
+
+/* ROWS */
+
+for(let r=0;r<5;r++){
+
+let win=true;
+
+for(let c=0;c<5;c++){
+
+if(!marked[r*5+c]){
+
+win=false;
+
+}
+
+}
+
+if(win){
+
+wins.push(
+"Row "+(r+1)
+);
+
+}
+
+}
+
+
+/* COLUMNS */
+
+for(let c=0;c<5;c++){
+
+let win=true;
+
+for(let r=0;r<5;r++){
+
+if(!marked[r*5+c]){
+
+win=false;
+
+}
+
+}
+
+if(win){
+
+wins.push(
+["B","I","N","G","O"][c]+" Column"
+);
+
+}
+
+}
+
+
+/* DIAGONAL 1 */
+
+let diagonal1=true;
+
+for(let i=0;i<5;i++){
+
+if(!marked[i*5+i]){
+
+diagonal1=false;
+
+}
+
+}
+
+if(diagonal1){
+
+wins.push("Diagonal ↘");
+
+}
+
+
+/* DIAGONAL 2 */
+
+let diagonal2=true;
+
+for(let i=0;i<5;i++){
+
+if(!marked[i*5+(4-i)]){
+
+diagonal2=false;
+
+}
+
+}
+
+if(diagonal2){
+
+wins.push("Diagonal ↙");
+
+}
+
+
+/* SHOW RESULT */
+
+const result=
+document.getElementById("result");
+
+
+if(wins.length>0){
+
+result.className="result valid";
+
+result.innerHTML=
+"🎉🎉🎉 VALID BINGO! 🎉🎉🎉"+
+"<br><br>"+
+"CARD #"+cardNumber+
+"<br><br>"+
+"WINNING LINE(S):"+
+"<br>"+
+wins.join("<br>");
+
+
+addWinner(cardNumber,wins);
+
+}else{
+
+result.className="result invalid";
+
+result.innerHTML=
+"❌ NOT A BINGO YET"+
+"<br><br>"+
+"CARD #"+cardNumber+
+"<br><br>"+
+"No complete row, column, or diagonal yet.";
+
+}
+
+}
+
+
+/* =========================
+   WINNER HISTORY
+========================= */
+
+function addWinner(cardNumber,wins){
+
+const alreadyWon=
+winners.some(w=>w.card===cardNumber);
+
+if(alreadyWon){
+
+return;
+
+}
+
+
+const winner={
+
+card:cardNumber,
+
+lines:wins.join(", "),
+
+time:new Date().toLocaleTimeString()
+
+};
+
+
+winners.push(winner);
+
+updateWinnerHistory();
+
+}
+
+
+function updateWinnerHistory(){
+
+const history=
+document.getElementById("winnerHistory");
+
+
+if(winners.length===0){
+
+history.textContent="No winners yet";
+
+return;
+
+}
+
+
+history.innerHTML="";
+
+
+winners.forEach((winner,index)=>{
+
+const div=
+document.createElement("div");
+
+div.className="winner";
+
+div.innerHTML=
+"<strong>Winner #"+
+(index+1)+
+"</strong> — Card #"+
+winner.card+
+"<br>"+
+winner.lines+
+"<br>"+
+"<small>"+
+winner.time+
+"</small>";
+
+history.appendChild(div);
+
+});
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetGame(){
+
+if(!confirm(
+"Reset the entire Bingo game?"
+)){
+
+return;
+
+}
+
+
+calledNumbers=[];
+
+winners=[];
+
+
+document.getElementById("currentLetter")
+.textContent="READY";
+
+document.getElementById("currentNumber")
+.textContent="—";
+
+document.getElementById("cardInput")
+.value="";
+
+document.getElementById("cardTitle")
+.textContent="";
+
+document.getElementById("bingoCard")
+.innerHTML="";
+
+document.getElementById("result")
+.innerHTML="";
+
+document.getElementById("result")
+.className="";
+
+
+updateCalledList();
+
+updateCallGrid();
+
+updateWinnerHistory();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateCalledList();
+
+updateCallGrid();
+
+updateWinnerHistory();
+
+</script>
+
+</body>
+</html>
