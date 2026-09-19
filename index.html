@@ -6,91 +6,329 @@
 <title>Farm Girl Designs Bingo</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#ff69b4,#40e0d0);
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.25) 0 3px,transparent 4px),
+    radial-gradient(circle at 80% 70%,rgba(255,255,255,.2) 0 3px,transparent 4px),
+    linear-gradient(135deg,#ff69b4,#40e0d0);
+  background-size:35px 35px,45px 45px,100% 100%;
   min-height:100vh;
-  text-align:center;
   color:#222;
 }
+
 .container{
-  max-width:600px;
+  max-width:650px;
   margin:auto;
   padding:15px;
 }
+
+.logo{
+  background:white;
+  border:5px solid #ff69b4;
+  border-radius:22px;
+  padding:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,.25);
+  margin-bottom:12px;
+}
+
+.logoMain{
+  font-family:Georgia,serif;
+  font-size:29px;
+  font-weight:bold;
+  color:#ff1493;
+  text-shadow:1px 1px #40e0d0;
+}
+
+.logoSub{
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:3px;
+  color:#222;
+  margin-top:3px;
+}
+
 h1{
-  margin:5px 0;
-  font-size:28px;
+  margin:8px 0;
+  font-size:26px;
   color:white;
   text-shadow:2px 2px #333;
 }
+
 .subtitle{
   color:white;
   font-weight:bold;
   margin-bottom:12px;
 }
+
 .cardNumber{
   background:white;
   border-radius:12px;
-  padding:8px;
+  padding:10px;
   margin-bottom:10px;
   font-weight:bold;
+  box-shadow:0 3px 8px rgba(0,0,0,.2);
 }
+
 .bingo{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:5px;
   background:#222;
   padding:5px;
-  border-radius:12px;
+  border-radius:14px;
+  box-shadow:0 5px 15px rgba(0,0,0,.25);
 }
+
 .cell{
   aspect-ratio:1;
   border:0;
   border-radius:8px;
   background:white;
-  font-size:20px;
+  font-size:clamp(16px,5vw,27px);
   font-weight:bold;
   cursor:pointer;
+  color:#222;
+  transition:.15s;
 }
+
+.cell:active{
+  transform:scale(.94);
+}
+
 .cell.marked{
   background:#ff69b4;
   color:white;
   box-shadow:inset 0 0 0 4px #40e0d0;
 }
+
 .free{
-  background:#40e0d0;
-  color:white;
+  background:#40e0d0 !important;
+  color:white !important;
+  box-shadow:inset 0 0 0 4px white;
 }
+
 .buttons{
   display:flex;
   gap:8px;
   margin-top:12px;
 }
+
 button.control{
   flex:1;
-  padding:12px;
+  padding:13px;
   border:0;
   border-radius:10px;
   font-weight:bold;
   font-size:15px;
+  cursor:pointer;
 }
-.reset{background:white;}
-.bingoBtn{background:#222;color:white;}
+
+.reset{
+  background:white;
+}
+
+.bingoBtn{
+  background:#222;
+  color:white;
+}
+
 #message{
   margin-top:12px;
   background:white;
   padding:12px;
   border-radius:10px;
   font-weight:bold;
+  box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
+
 .instructions{
   background:white;
   margin-top:12px;
   padding:12px;
   border-radius:10px;
   font-size:14px;
+  text-align:left;
+  box-shadow:0 3px 8px rgba(0,0,0,.15);
+}
+
+/* CALLER */
+
+#callerPage{
+  display:none;
+}
+
+.callerTitle{
+  background:white;
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+
+.callerTitle h2{
+  margin:0;
+  color:#ff1493;
+}
+
+.calledNow{
+  background:#222;
+  color:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:12px;
+}
+
+.calledLabel{
+  font-size:14px;
+  font-weight:bold;
+  color:#40e0d0;
+}
+
+.calledNumber{
+  font-size:64px;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+.callerGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  background:rgba(255,255,255,.3);
+  padding:8px;
+  border-radius:15px;
+}
+
+.callButton{
+  min-height:58px;
+  border:0;
+  border-radius:10px;
+  background:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.callButton:hover{
+  background:#40e0d0;
+  color:white;
+}
+
+.callButton.called{
+  background:#777;
+  color:#ddd;
+  cursor:not-allowed;
+  text-decoration:line-through;
+}
+
+.callButton.lastCalled{
+  background:#ff69b4;
+  color:white;
+  box-shadow:0 0 0 4px #40e0d0;
+}
+
+.callerControls{
+  display:flex;
+  gap:8px;
+  margin:12px 0;
+}
+
+.callerControls button{
+  flex:1;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.newRound{
+  background:#222;
+  color:white;
+}
+
+.undo{
+  background:white;
+}
+
+.calledHistory{
+  background:white;
+  padding:12px;
+  border-radius:14px;
+  margin-top:12px;
+  text-align:left;
+}
+
+.historyNumbers{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+
+.historyNumber{
+  background:#ff69b4;
+  color:white;
+  border-radius:8px;
+  padding:7px 9px;
+  font-weight:bold;
+}
+
+.winners{
+  background:white;
+  padding:12px;
+  border-radius:14px;
+  margin-top:12px;
+  text-align:left;
+}
+
+.winnerCard{
+  display:inline-block;
+  background:#40e0d0;
+  color:white;
+  padding:8px 10px;
+  margin:4px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.noWinner{
+  font-weight:bold;
+  color:#777;
+}
+
+.modeButton{
+  margin-top:12px;
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+@media(max-width:450px){
+  .callerGrid{
+    gap:4px;
+    padding:5px;
+  }
+
+  .callButton{
+    min-height:48px;
+    font-size:15px;
+  }
+
+  .calledNumber{
+    font-size:52px;
+  }
 }
 </style>
 </head>
@@ -99,191 +337,850 @@ button.control{
 
 <div class="container">
 
-<h1>🎀 FARM GIRL DESIGNS 🎀</h1>
-<div class="subtitle">🩷🩵 DIGITAL BINGO 🩵🩷</div>
+<!-- ================= PLAYER PAGE ================= -->
 
-<div class="cardNumber">
-  PLAYER CARD #<span id="cardNum"></span>
+<div id="playerPage">
+
+  <div class="logo">
+    <div class="logoMain">🎀 FARM GIRL DESIGNS 🎀</div>
+    <div class="logoSub">PINK • TURQUOISE • BINGO</div>
+  </div>
+
+  <h1>🩷 DIGITAL BINGO 🩵</h1>
+
+  <div class="subtitle">
+    Tap numbers ONLY when they are called!
+  </div>
+
+  <div class="cardNumber">
+    PLAYER CARD #<span id="cardNum"></span>
+  </div>
+
+  <div class="bingo" id="bingo"></div>
+
+  <div class="buttons">
+    <button class="control reset" onclick="resetCard()">
+      ↩ RESET
+    </button>
+
+    <button class="control bingoBtn" onclick="checkBingo()">
+      🎉 BINGO!
+    </button>
+  </div>
+
+  <div id="message">
+    Waiting for the caller...
+  </div>
+
+  <div class="instructions">
+    <b>How to play:</b><br><br>
+
+    ⭐ Watch the Farm Girl Designs LIVE.<br>
+    ⭐ When the caller calls a number, tap that number.<br>
+    ⭐ The center FREE space is automatically marked.<br>
+    ⭐ Get 5 in a row, column, or diagonal.<br>
+    ⭐ When you have Bingo, tap BINGO!
+  </div>
+
+  <button class="modeButton" onclick="openCaller()">
+    🎤 OPEN CALLER MODE
+  </button>
+
 </div>
 
-<div class="bingo" id="bingo"></div>
 
-<div class="buttons">
-  <button class="control reset" onclick="resetCard()">↩ RESET</button>
-  <button class="control bingoBtn" onclick="checkBingo()">🎉 BINGO!</button>
+<!-- ================= CALLER PAGE ================= -->
+
+<div id="callerPage">
+
+  <div class="logo">
+    <div class="logoMain">🎀 FARM GIRL DESIGNS 🎀</div>
+    <div class="logoSub">BINGO CALLER</div>
+  </div>
+
+  <div class="callerTitle">
+    <h2>🎤 MANUAL BINGO CALLER</h2>
+    <p>
+      YOU choose the number to call.
+      The system will keep track of every number.
+    </p>
+  </div>
+
+  <div class="calledNow">
+    <div class="calledLabel">
+      LAST NUMBER CALLED
+    </div>
+
+    <div class="calledNumber" id="calledNow">
+      —
+    </div>
+  </div>
+
+  <div class="callerGrid" id="callerGrid"></div>
+
+  <div class="callerControls">
+
+    <button class="undo" onclick="undoCall()">
+      ↩ UNDO LAST
+    </button>
+
+    <button class="newRound" onclick="newRound()">
+      🔄 NEW ROUND
+    </button>
+
+  </div>
+
+  <div class="calledHistory">
+
+    <b>📋 NUMBERS CALLED</b>
+
+    <div id="calledCount">
+      0 numbers called
+    </div>
+
+    <div class="historyNumbers" id="historyNumbers">
+      None yet
+    </div>
+
+  </div>
+
+  <div class="winners">
+
+    <b>🏆 CARDS WITH BINGO</b>
+
+    <div id="winnerList">
+      <div class="noWinner">
+        No Bingo yet.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="instructions">
+
+    <b>CALLER INSTRUCTIONS</b><br><br>
+
+    1️⃣ Choose the number you want to call.<br><br>
+
+    2️⃣ Tap that number.<br><br>
+
+    3️⃣ The number becomes locked so it cannot be called twice.<br><br>
+
+    4️⃣ The software checks all 150 cards after every call.<br><br>
+
+    5️⃣ Any card that has a complete row, column, or diagonal will appear under <b>CARDS WITH BINGO</b>.<br><br>
+
+    6️⃣ Use NEW ROUND when the game is finished.
+
+  </div>
+
+  <button class="modeButton" onclick="openPlayer()">
+    🎟️ BACK TO PLAYER CARD
+  </button>
+
 </div>
 
-<div id="message">
-  Tap a number when it is called!
 </div>
 
-<div class="instructions">
-  ⭐ The center FREE space is already marked.<br>
-  ⭐ Tap each called number to mark it.<br>
-  ⭐ Get 5 in a row, column, or diagonal.<br>
-  ⭐ When you have Bingo, tap the BINGO button!
-</div>
-
-</div>
 
 <script>
 
+/* =========================================================
+   FARM GIRL DESIGNS BINGO
+   150 CARD SYSTEM
+   MANUAL CALLER
+   ========================================================= */
+
+
+/* ================= URL / CARD NUMBER ================= */
+
 const params = new URLSearchParams(window.location.search);
+
 let cardNumber = parseInt(params.get("card")) || 1;
 
 if(cardNumber < 1) cardNumber = 1;
 if(cardNumber > 150) cardNumber = 150;
 
-document.getElementById("cardNum").textContent = cardNumber;
+
+/* ================= SEEDED RANDOM ================= */
 
 function seededRandom(seed){
+
   let x = Math.sin(seed++) * 10000;
+
   return x - Math.floor(x);
+
 }
 
-function makeColumn(min,max,seed){
-  let numbers=[];
-  let seedValue=seed;
 
-  while(numbers.length<5){
-    seedValue++;
-    let n=Math.floor(seededRandom(seedValue)*(max-min+1))+min;
-    if(!numbers.includes(n)) numbers.push(n);
+/* ================= SHUFFLE ================= */
+
+function shuffle(array, seed){
+
+  let arr = [...array];
+
+  for(let i = arr.length - 1; i > 0; i--){
+
+    let random = seededRandom(seed + i * 17);
+
+    let j = Math.floor(random * (i + 1));
+
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+
   }
 
-  return numbers;
+  return arr;
+
 }
 
-let B = makeColumn(1,15,cardNumber*11);
-let I = makeColumn(16,30,cardNumber*17);
-let N = makeColumn(31,45,cardNumber*23);
-let G = makeColumn(46,60,cardNumber*29);
-let O = makeColumn(61,75,cardNumber*31);
 
-let board=[];
+/* ================= CREATE CARD ================= */
 
-for(let r=0;r<5;r++){
-  board.push([
-    B[r],
-    I[r],
-    N[r],
-    G[r],
-    O[r]
-  ]);
-}
+function createCard(number){
 
-board[2][2]="FREE";
+  let columns = [
 
-const bingo=document.getElementById("bingo");
+    [1,15],
+    [16,30],
+    [31,45],
+    [46,60],
+    [61,75]
 
-function drawCard(){
+  ];
 
-  bingo.innerHTML="";
+  let card = [];
 
-  board.forEach((row,r)=>{
-    row.forEach((num,c)=>{
+  for(let c = 0; c < 5; c++){
 
-      const button=document.createElement("button");
-      button.className="cell";
+    let nums = [];
 
-      if(num==="FREE"){
-        button.classList.add("free","marked");
+    for(
+      let n = columns[c][0];
+      n <= columns[c][1];
+      n++
+    ){
+
+      nums.push(n);
+
+    }
+
+    nums = shuffle(
+      nums,
+      number * 101 + c * 31
+    );
+
+    card.push(nums.slice(0,5));
+
+  }
+
+
+  let result = [];
+
+  for(let r = 0; r < 5; r++){
+
+    for(let c = 0; c < 5; c++){
+
+      if(r === 2 && c === 2){
+
+        result.push("FREE");
+
+      }else{
+
+        result.push(card[c][r]);
+
       }
 
-      button.textContent=num;
+    }
 
-      button.onclick=()=>{
+  }
 
-        if(num!=="FREE"){
-          button.classList.toggle("marked");
-        }
+  return result;
 
-      };
+}
 
-      bingo.appendChild(button);
 
-    });
+/* ================= PLAYER CARD ================= */
+
+let playerCard = createCard(cardNumber);
+
+let marked = new Array(25).fill(false);
+
+marked[12] = true;
+
+
+/* ================= PLAYER DISPLAY ================= */
+
+function renderPlayer(){
+
+  const bingo = document.getElementById("bingo");
+
+  bingo.innerHTML = "";
+
+  playerCard.forEach((value,index)=>{
+
+    const cell = document.createElement("button");
+
+    cell.className = "cell";
+
+    cell.textContent = value;
+
+    if(value === "FREE"){
+
+      cell.classList.add("free");
+      cell.disabled = true;
+
+    }
+
+    if(marked[index]){
+
+      cell.classList.add("marked");
+
+    }
+
+    cell.onclick = function(){
+
+      markPlayerCell(index);
+
+    };
+
+    bingo.appendChild(cell);
+
   });
 
 }
+
+
+/* ================= CALLED NUMBERS ================= */
+
+let calledNumbers = [];
+
+
+/*
+   We keep the caller numbers in localStorage.
+
+   This means the caller page remembers its
+   numbers if the page is accidentally refreshed.
+*/
+
+function saveCalledNumbers(){
+
+  localStorage.setItem(
+    "farmGirlCalledNumbers",
+    JSON.stringify(calledNumbers)
+  );
+
+}
+
+
+function loadCalledNumbers(){
+
+  try{
+
+    const saved = localStorage.getItem(
+      "farmGirlCalledNumbers"
+    );
+
+    if(saved){
+
+      calledNumbers = JSON.parse(saved);
+
+    }
+
+  }catch(e){
+
+    calledNumbers = [];
+
+  }
+
+}
+
+
+/* ================= PLAYER MARKING ================= */
+
+function markPlayerCell(index){
+
+  const value = playerCard[index];
+
+  if(value === "FREE") return;
+
+
+  /*
+     If the caller list exists on this device,
+     only called numbers can be marked.
+  */
+
+  if(calledNumbers.length > 0){
+
+    if(!calledNumbers.includes(value)){
+
+      document.getElementById("message").textContent =
+        "⛔ That number has not been called yet!";
+
+      return;
+
+    }
+
+  }
+
+
+  marked[index] = !marked[index];
+
+  renderPlayer();
+
+  document.getElementById("message").textContent =
+    "Tap a number when it is called!";
+
+}
+
+
+/* ================= RESET PLAYER ================= */
 
 function resetCard(){
 
-  document.querySelectorAll(".cell").forEach((cell,index)=>{
+  marked = new Array(25).fill(false);
 
-    if(index===12){
-      cell.classList.add("marked");
-    }else{
-      cell.classList.remove("marked");
-    }
+  marked[12] = true;
 
-  });
+  renderPlayer();
 
-  document.getElementById("message").textContent=
-  "Card reset! Tap the numbers as they are called.";
+  document.getElementById("message").textContent =
+    "Card reset! Tap the numbers as they are called.";
 
 }
+
+
+/* ================= CHECK PLAYER BINGO ================= */
+
+function checkMarkedArray(values){
+
+  for(let r = 0; r < 5; r++){
+
+    let win = true;
+
+    for(let c = 0; c < 5; c++){
+
+      if(!values[r * 5 + c]){
+
+        win = false;
+
+      }
+
+    }
+
+    if(win) return true;
+
+  }
+
+
+  for(let c = 0; c < 5; c++){
+
+    let win = true;
+
+    for(let r = 0; r < 5; r++){
+
+      if(!values[r * 5 + c]){
+
+        win = false;
+
+      }
+
+    }
+
+    if(win) return true;
+
+  }
+
+
+  let diagonal1 = true;
+
+  for(let i = 0; i < 5; i++){
+
+    if(!values[i * 5 + i]){
+
+      diagonal1 = false;
+
+    }
+
+  }
+
+  if(diagonal1) return true;
+
+
+  let diagonal2 = true;
+
+  for(let i = 0; i < 5; i++){
+
+    if(!values[i * 5 + (4 - i)]){
+
+      diagonal2 = false;
+
+    }
+
+  }
+
+  if(diagonal2) return true;
+
+
+  return false;
+
+}
+
 
 function checkBingo(){
 
-  const cells=[...document.querySelectorAll(".cell")];
+  if(checkMarkedArray(marked)){
 
-  let marked=cells.map(c=>c.classList.contains("marked"));
+    document.getElementById("message").textContent =
+      "🎉🎉 BINGO! 🎉🎉";
 
-  let win=false;
-
-  for(let r=0;r<5;r++){
-
-    let row=true;
-
-    for(let c=0;c<5;c++){
-      if(!marked[r*5+c]) row=false;
-    }
-
-    if(row) win=true;
-  }
-
-  for(let c=0;c<5;c++){
-
-    let col=true;
-
-    for(let r=0;r<5;r++){
-      if(!marked[r*5+c]) col=false;
-    }
-
-    if(col) win=true;
-  }
-
-  let d1=true;
-  let d2=true;
-
-  for(let i=0;i<5;i++){
-
-    if(!marked[i*5+i]) d1=false;
-
-    if(!marked[i*5+(4-i)]) d2=false;
+    return true;
 
   }
 
-  if(d1 || d2) win=true;
+  document.getElementById("message").textContent =
+    "Not Bingo yet — keep playing!";
 
-  const message=document.getElementById("message");
-
-  if(win){
-
-    message.innerHTML=
-    "🎉🎉🎉 <strong>BINGO!</strong> 🎉🎉🎉<br>Call it out on the LIVE!";
-
-  }else{
-
-    message.textContent=
-    "Not Bingo yet — keep playing! 🩷";
-
-  }
+  return false;
 
 }
 
-drawCard();
+
+/* =========================================================
+   CALLER
+   ========================================================= */
+
+function renderCaller(){
+
+  const grid = document.getElementById("callerGrid");
+
+  grid.innerHTML = "";
+
+
+  for(let number = 1; number <= 75; number++){
+
+    const button = document.createElement("button");
+
+    button.className = "callButton";
+
+    button.textContent = getLetter(number) + "-" + number;
+
+
+    if(calledNumbers.includes(number)){
+
+      button.classList.add("called");
+
+      if(
+        calledNumbers.length > 0 &&
+        calledNumbers[calledNumbers.length - 1] === number
+      ){
+
+        button.classList.add("lastCalled");
+
+      }
+
+    }
+
+
+    button.onclick = function(){
+
+      callNumber(number);
+
+    };
+
+
+    grid.appendChild(button);
+
+  }
+
+
+  updateCallerDisplay();
+
+}
+
+
+/* ================= BINGO LETTER ================= */
+
+function getLetter(number){
+
+  if(number <= 15) return "B";
+
+  if(number <= 30) return "I";
+
+  if(number <= 45) return "N";
+
+  if(number <= 60) return "G";
+
+  return "O";
+
+}
+
+
+/* ================= CALL NUMBER ================= */
+
+function callNumber(number){
+
+  if(calledNumbers.includes(number)){
+
+    return;
+
+  }
+
+
+  calledNumbers.push(number);
+
+  saveCalledNumbers();
+
+  renderCaller();
+
+  checkAllCards();
+
+}
+
+
+/* ================= UNDO ================= */
+
+function undoCall(){
+
+  if(calledNumbers.length === 0){
+
+    return;
+
+  }
+
+  calledNumbers.pop();
+
+  saveCalledNumbers();
+
+  renderCaller();
+
+  checkAllCards();
+
+}
+
+
+/* ================= UPDATE CALLER DISPLAY ================= */
+
+function updateCallerDisplay(){
+
+  const now = document.getElementById("calledNow");
+
+  const history = document.getElementById("historyNumbers");
+
+  const count = document.getElementById("calledCount");
+
+
+  if(calledNumbers.length === 0){
+
+    now.textContent = "—";
+
+    count.textContent = "0 numbers called";
+
+    history.innerHTML = "None yet";
+
+    return;
+
+  }
+
+
+  const last =
+    calledNumbers[calledNumbers.length - 1];
+
+  now.textContent =
+    getLetter(last) + "-" + last;
+
+
+  count.textContent =
+    calledNumbers.length +
+    (calledNumbers.length === 1
+      ? " number called"
+      : " numbers called");
+
+
+  history.innerHTML = "";
+
+
+  calledNumbers.forEach(number=>{
+
+    const span = document.createElement("span");
+
+    span.className = "historyNumber";
+
+    span.textContent =
+      getLetter(number) + "-" + number;
+
+    history.appendChild(span);
+
+  });
+
+}
+
+
+/* =========================================================
+   CHECK ALL 150 CARDS
+   ========================================================= */
+
+function cardHasBingo(card){
+
+  let values = [];
+
+
+  for(let i = 0; i < 25; i++){
+
+    if(card[i] === "FREE"){
+
+      values.push(true);
+
+    }else{
+
+      values.push(
+        calledNumbers.includes(card[i])
+      );
+
+    }
+
+  }
+
+
+  return checkMarkedArray(values);
+
+}
+
+
+function checkAllCards(){
+
+  const winnerList =
+    document.getElementById("winnerList");
+
+  winnerList.innerHTML = "";
+
+
+  let winners = [];
+
+
+  for(let number = 1; number <= 150; number++){
+
+    const card = createCard(number);
+
+
+    if(cardHasBingo(card)){
+
+      winners.push(number);
+
+    }
+
+  }
+
+
+  if(winners.length === 0){
+
+    winnerList.innerHTML =
+      '<div class="noWinner">No Bingo yet.</div>';
+
+    return;
+
+  }
+
+
+  winners.forEach(number=>{
+
+    const span = document.createElement("span");
+
+    span.className = "winnerCard";
+
+    span.textContent =
+      "CARD #" + number;
+
+    winnerList.appendChild(span);
+
+  });
+
+}
+
+
+/* ================= NEW ROUND ================= */
+
+function newRound(){
+
+  const answer = confirm(
+    "Start a new Bingo round?\n\n" +
+    "This will clear all called numbers."
+  );
+
+
+  if(!answer) return;
+
+
+  calledNumbers = [];
+
+  saveCalledNumbers();
+
+  renderCaller();
+
+  checkAllCards();
+
+}
+
+
+/* ================= PAGE SWITCHING ================= */
+
+function openCaller(){
+
+  document.getElementById("playerPage").style.display =
+    "none";
+
+  document.getElementById("callerPage").style.display =
+    "block";
+
+  renderCaller();
+
+  checkAllCards();
+
+}
+
+
+function openPlayer(){
+
+  document.getElementById("callerPage").style.display =
+    "none";
+
+  document.getElementById("playerPage").style.display =
+    "block";
+
+  renderPlayer();
+
+}
+
+
+/* ================= STARTUP ================= */
+
+loadCalledNumbers();
+
+renderPlayer();
+
+renderCaller();
+
+checkAllCards();
+
+
+/*
+   Automatically open caller mode if URL contains:
+
+   ?caller=1
+
+   Example:
+
+   YOUR-GITHUB-PAGE/caller.html?caller=1
+
+   OR:
+
+   YOUR-GITHUB-PAGE/?caller=1
+*/
+
+if(params.get("caller") === "1"){
+
+  openCaller();
+
+}
 
 </script>
 
