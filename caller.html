@@ -2,73 +2,661 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Farm Girl Designs Bingo Caller</title>
+
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 body{
- margin:0;font-family:Arial,sans-serif;
- background:
- radial-gradient(circle at 10% 10%,#fff 0 3%,transparent 4%),
- linear-gradient(135deg,#ff4fa3,#ff9bd0 45%,#25d9d0);
- min-height:100vh;color:#35162d
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#35162d;
+
+  background:
+    radial-gradient(circle at 10% 15%,rgba(255,255,255,.75) 0 8px,transparent 9px),
+    radial-gradient(circle at 90% 30%,rgba(255,255,255,.55) 0 6px,transparent 7px),
+    linear-gradient(135deg,#ff3f9f,#ff9ed4 42%,#24d7d0 100%);
+
+  min-height:100vh;
 }
-.container{max-width:720px;margin:auto;padding:14px}
+
+.container{
+  width:100%;
+  max-width:850px;
+  margin:auto;
+  padding:12px;
+}
+
+/* HEADER */
+
 .header{
- background:#fff;border:5px solid #ff4fa3;border-radius:28px;
- padding:16px;text-align:center;box-shadow:0 8px 20px #54103d55
+  background:white;
+  border:6px solid #ff3f9f;
+  border-radius:28px;
+  padding:12px;
+  text-align:center;
+  box-shadow:0 8px 25px rgba(70,0,50,.35);
+  position:relative;
+  overflow:hidden;
 }
-.logo{font-size:42px}
-h1{margin:3px;color:#ed318e;font-size:28px}
-.sub{font-weight:900;color:#159d99;font-size:18px}
+
+.header:before{
+  content:"🎀  🌻  🐄  🌻  🎀";
+  display:block;
+  color:#ed318e;
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.logo{
+  width:100%;
+}
+
+.logo img{
+  width:100%;
+  max-width:650px;
+  height:auto;
+  display:block;
+  margin:auto;
+}
+
+.header:after{
+  content:"🐆  🎀  🌻  🚜  🌻  🎀  🐆";
+  display:block;
+  color:#159d99;
+  font-size:20px;
+  margin-top:7px;
+}
+
+/* CURRENT CALL */
+
 .current{
- margin:15px 0;padding:18px;text-align:center;
- background:#35162d;color:white;border:4px solid #ffd0e7;
- border-radius:25px;box-shadow:0 8px 20px #42112e66
+  margin-top:15px;
+  padding:18px;
+  text-align:center;
+
+  background:#35162d;
+  color:white;
+
+  border:5px solid #ffd0e7;
+  border-radius:28px;
+
+  box-shadow:
+    0 8px 20px rgba(60,0,40,.4),
+    inset 0 0 0 3px #ff3f9f;
 }
-.label{font-weight:900;letter-spacing:2px}
-.letter{font-size:32px;color:#ffe06a;font-weight:900}
-.number{font-size:82px;font-weight:900;line-height:1}
-button{
- border:0;border-radius:14px;padding:13px 8px;
- font-size:16px;font-weight:900;cursor:pointer
+
+.label{
+  font-weight:900;
+  letter-spacing:2px;
+  color:#ffd0e7;
 }
-.reset{background:#fff;color:#35162d;margin-top:12px;padding:13px 22px}
+
+.letter{
+  font-size:34px;
+  color:#ffe06a;
+  font-weight:900;
+  margin-top:4px;
+}
+
+.number{
+  font-size:90px;
+  line-height:1;
+  font-weight:900;
+  color:white;
+}
+
+/* INSTRUCTIONS */
+
+.instructions{
+  margin-top:14px;
+  background:white;
+  border:4px solid #24d7d0;
+  border-radius:22px;
+  padding:15px;
+  text-align:center;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 6px 18px rgba(50,0,40,.25);
+}
+
+.instructions span{
+  color:#ed318e;
+}
+
+/* SECTION */
+
 .section{
- background:#fff;border:4px solid #25d9d0;border-radius:22px;
- padding:14px;margin-top:14px;box-shadow:0 6px 18px #54103d44
+  background:white;
+  border:4px solid #24d7d0;
+  border-radius:24px;
+  padding:14px;
+  margin-top:14px;
+
+  box-shadow:0 7px 20px rgba(60,0,40,.25);
 }
-.title{text-align:center;font-size:19px;font-weight:900;color:#bd176d;margin-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+
+.title{
+  text-align:center;
+  font-size:21px;
+  font-weight:900;
+  color:#c51670;
+  margin-bottom:12px;
+}
+
+/* BINGO BOARD */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+
 .ball{
- background:#fff;border:3px solid #ddd;color:#35162d;
- min-height:55px
+  border:3px solid #24bdb8;
+  border-radius:12px;
+
+  background:white;
+  color:#35162d;
+
+  min-height:58px;
+
+  font-size:17px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  box-shadow:0 3px 7px rgba(0,0,0,.15);
+
+  transition:.15s;
 }
-.ball.called{background:#ff4fa3;color:white;border-color:#b71869}
-.ball.last{outline:4px solid #ffd34e}
-.called{
- line-height:1.9;font-size:15px;font-weight:700;
- word-break:break-word
+
+.ball:active{
+  transform:scale(.94);
 }
-@media(min-width:600px){.grid{grid-template-columns:repeat(10,1fr)}}
+
+.ball.called{
+  background:#ff3f9f;
+  color:white;
+  border-color:#b71869;
+  box-shadow:0 0 0 3px #ffd0e7 inset;
+}
+
+.ball.last{
+  outline:5px solid #ffd43b;
+  transform:scale(1.04);
+}
+
+/* COLUMN HEADERS */
+
+.column-header{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-bottom:7px;
+}
+
+.column-header div{
+  text-align:center;
+  padding:8px 2px;
+  border-radius:12px;
+
+  background:#ff3f9f;
+  color:white;
+
+  font-size:22px;
+  font-weight:900;
+
+  border:3px solid #ffd0e7;
+}
+
+/* CALLED NUMBERS */
+
+.called-box{
+  background:#fff7fc;
+  border:3px dashed #ff3f9f;
+  border-radius:18px;
+  padding:12px;
+  min-height:70px;
+  font-size:17px;
+  font-weight:900;
+  line-height:1.7;
+  text-align:center;
+}
+
+.called-number{
+  display:inline-block;
+  background:#24d7d0;
+  color:#35162d;
+  padding:4px 8px;
+  margin:3px;
+  border-radius:10px;
+}
+
+/* BUTTONS */
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.action{
+  border:0;
+  border-radius:15px;
+  padding:15px 8px;
+
+  font-size:17px;
+  font-weight:900;
+
+  cursor:pointer;
+}
+
+.undo{
+  background:#24d7d0;
+  color:#35162d;
+}
+
+.reset{
+  background:#35162d;
+  color:white;
+}
+
+.footer{
+  text-align:center;
+  color:white;
+  font-weight:900;
+  padding:18px 5px;
+  font-size:15px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  .container{
+    padding:8px;
+  }
+
+  .header{
+    border-width:4px;
+  }
+
+  .header:before,
+  .header:after{
+    font-size:16px;
+  }
+
+  .number{
+    font-size:76px;
+  }
+
+  .letter{
+    font-size:28px;
+  }
+
+  .ball{
+    min-height:54px;
+    font-size:16px;
+  }
+
+  .column-header div{
+    font-size:19px;
+  }
+}
+
+@media(min-width:650px){
+
+  .grid{
+    grid-template-columns:repeat(10,1fr);
+  }
+
+  .column-header{
+    display:none;
+  }
+}
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<div class="header">
- <div class="logo">
-  <img src="ChatGPT%20Image%20Sep%203%2C%202026%2C%2011_00_27%20AM.png"
-       alt="Farm Girl Designs"
-       style="width:100%;max-width:650px;height:auto;display:block;margin:auto;">
- </div>
- <h1>FARM GIRL DESIGNS</h1>
- <div class="sub">🩷🩵 BINGO CALLER 🩵🩷</div>
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <div class="logo">
+      <img
+        src="ChatGPT%20Image%20Sep%203%2C%202026%2C%2011_00_27%20AM.png"
+        alt="Farm Girl Designs"
+      >
+    </div>
+
+  </div>
+
+  <!-- CURRENT CALL -->
+
+  <div class="current">
+
+    <div class="label">
+      CURRENT OFFICIAL CALL
+    </div>
+
+    <div class="letter" id="letter">
+      READY
+    </div>
+
+    <div class="number" id="number">
+      —
+    </div>
+
+  </div>
+
+  <!-- INSTRUCTIONS -->
+
+  <div class="instructions">
+
+    🎱 <span>YOU PULL THE BALL</span> 🎱
+    <br>
+    Then tap the matching number below.
+
+    <br><br>
+
+    🚫 Numbers are NOT automatically generated.
+    <br>
+    🩷 You control every call.
+
+  </div>
+
+  <!-- BOARD -->
+
+  <div class="section">
+
+    <div class="title">
+      🎀 TAP THE NUMBER YOU JUST PULLED 🎀
+    </div>
+
+    <div class="column-header">
+      <div>B</div>
+      <div>I</div>
+      <div>N</div>
+      <div>G</div>
+      <div>O</div>
+    </div>
+
+    <div class="grid" id="board"></div>
+
+  </div>
+
+  <!-- CALLED NUMBERS -->
+
+  <div class="section">
+
+    <div class="title">
+      🌻 NUMBERS CALLED 🌻
+    </div>
+
+    <div class="called-box" id="calledList">
+      No numbers called yet.
+    </div>
+
+    <div class="buttons">
+
+      <button class="action undo" onclick="undoLast()">
+        ↩️ UNDO LAST
+      </button>
+
+      <button class="action reset" onclick="resetGame()">
+        🗑️ RESET GAME
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    🎀 FARM GIRL DESIGNS 🎀
+    <br>
+    🩷🩵 Bingo Night 🩵🩷
+  </div>
+
 </div>
 
-<div class="current">
- <div class="label">CURRENT OFFICIAL CALL</div>
- <div class="letter" id="letter">READY</div>
- <div class="number" id="number">—</div>
- <div>You choose every number below
+
+<script>
+
+let calledNumbers = [];
+
+const board = document.getElementById("board");
+const numberDisplay = document.getElementById("number");
+const letterDisplay = document.getElementById("letter");
+const calledList = document.getElementById("calledList");
+
+
+function getLetter(number){
+
+  if(number >= 1 && number <= 15){
+    return "B";
+  }
+
+  if(number >= 16 && number <= 30){
+    return "I";
+  }
+
+  if(number >= 31 && number <= 45){
+    return "N";
+  }
+
+  if(number >= 46 && number <= 60){
+    return "G";
+  }
+
+  if(number >= 61 && number <= 75){
+    return "O";
+  }
+
+}
+
+
+function createBoard(){
+
+  board.innerHTML = "";
+
+  for(let number = 1; number <= 75; number++){
+
+    const button = document.createElement("button");
+
+    button.className = "ball";
+
+    button.textContent =
+      getLetter(number) + "-" + number;
+
+    button.onclick = function(){
+
+      callNumber(number);
+
+    };
+
+    board.appendChild(button);
+
+  }
+
+}
+
+
+function callNumber(number){
+
+  /* Don't call the same number twice */
+
+  if(calledNumbers.includes(number)){
+
+    alert(
+      "That number has already been called!"
+    );
+
+    return;
+
+  }
+
+
+  calledNumbers.push(number);
+
+
+  /* Current call */
+
+  numberDisplay.textContent = number;
+
+  letterDisplay.textContent =
+    getLetter(number);
+
+
+  renderBoard();
+
+  renderCalledNumbers();
+
+}
+
+
+function renderBoard(){
+
+  const buttons =
+    document.querySelectorAll(".ball");
+
+
+  buttons.forEach(function(button,index){
+
+    const number = index + 1;
+
+    button.classList.remove("called");
+    button.classList.remove("last");
+
+
+    if(calledNumbers.includes(number)){
+
+      button.classList.add("called");
+
+    }
+
+
+    if(
+      calledNumbers.length > 0 &&
+      number ===
+      calledNumbers[calledNumbers.length - 1]
+    ){
+
+      button.classList.add("last");
+
+    }
+
+  });
+
+}
+
+
+function renderCalledNumbers(){
+
+  if(calledNumbers.length === 0){
+
+    calledList.innerHTML =
+      "No numbers called yet.";
+
+    return;
+
+  }
+
+
+  calledList.innerHTML =
+    calledNumbers
+      .map(function(number){
+
+        return `
+          <span class="called-number">
+            ${getLetter(number)}-${number}
+          </span>
+        `;
+
+      })
+      .join("");
+
+}
+
+
+function undoLast(){
+
+  if(calledNumbers.length === 0){
+
+    alert("There are no calls to undo.");
+
+    return;
+
+  }
+
+
+  calledNumbers.pop();
+
+
+  if(calledNumbers.length === 0){
+
+    numberDisplay.textContent = "—";
+    letterDisplay.textContent = "READY";
+
+  }else{
+
+    const last =
+      calledNumbers[calledNumbers.length - 1];
+
+    numberDisplay.textContent = last;
+
+    letterDisplay.textContent =
+      getLetter(last);
+
+  }
+
+
+  renderBoard();
+
+  renderCalledNumbers();
+
+}
+
+
+function resetGame(){
+
+  const answer =
+    confirm(
+      "Are you sure you want to reset all called numbers?"
+    );
+
+
+  if(!answer){
+    return;
+  }
+
+
+  calledNumbers = [];
+
+
+  numberDisplay.textContent = "—";
+
+  letterDisplay.textContent = "READY";
+
+
+  renderBoard();
+
+  renderCalledNumbers();
+
+}
+
+
+createBoard();
+
+</script>
+
+</body>
+</html>
